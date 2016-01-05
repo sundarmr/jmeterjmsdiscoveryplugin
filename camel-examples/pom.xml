@@ -114,5 +114,6 @@
   <modules>
     <module>camel-spring-osgiprops</module>
     <module>camel-propertyplaceholders</module>
+    <module>camel-envbased-props</module>
   </modules>
 </project>
