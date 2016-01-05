@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:osgi="http://www.springframework.org/schema/osgi" 
+	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:ctx="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd 
+       http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd 
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd">
+
+	<osgix:cm-properties id="propsData" persistent-id="camelProperties" >
+	 <prop key="test.property">This is default value for test.property</prop>
+	</osgix:cm-properties>
+	<ctx:property-placeholder properties-ref="propsData"  />
+
+	<camel:camelContext xmlns="http://camel.apache.org/schema/spring"
+		trace="false">
+		<camel:propertyPlaceholder location="ref:propsData"
+			id="camelProps"></camel:propertyPlaceholder>
+		<camel:route>
+			<camel:from uri="timer:foo?delay=10000"></camel:from>
+
+			<camel:to uri="bean:sampleConfigBean?method=printProperties"></camel:to>
+			<camel:log message="Message is : ${test.property}" />
+			<camel:transform>
+				<camel:constant>DONE</camel:constant>
+			</camel:transform>
+
+		</camel:route>
+	</camel:camelContext>
+
+</beans>

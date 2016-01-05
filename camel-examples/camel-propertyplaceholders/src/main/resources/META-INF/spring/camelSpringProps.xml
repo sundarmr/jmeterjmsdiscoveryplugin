@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd 
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="properties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:camelProperties.properties" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<!--  Uncomment this block and modify ${fromend} to [[fromend]] to see how to change
+		the prefix and suffix for a property resolver -->
+		<!-- <property name="placeholderPrefix" value="[["></property> <property 
+			name="placeholderSuffix" value="]]"></property> -->
+	</bean>
+
+
+	<camel:camelContext xmlns="http://camel.apache.org/schema/spring"
+		trace="false">
+		<camel:endpoint uri="${fromend}" id="fromEndPoint" />
+
+		<camel:route>
+			<camel:from ref="fromEndPoint"></camel:from>
+			<camel:setBody>
+				<camel:constant>Camel Body</camel:constant>
+			</camel:setBody>
+			<camel:log message="Body is :   ${in.body} " />
+			<camel:transform>
+				<camel:constant>DONE</camel:constant>
+			</camel:transform>
+		</camel:route>
+	</camel:camelContext>
+
+</beans>
