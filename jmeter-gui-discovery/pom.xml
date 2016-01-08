@@ -93,9 +93,6 @@
 		</repository>
 	</repositories>
 
-	<parent>
-		<groupId>com.jmeter.discovery</groupId>
-		<artifactId>jmeter-discovery-plugin</artifactId>
-		<version>1.0</version>
-	</parent>
+	<groupId>com.jmeter.discovery</groupId>
+	<version>1.0</version>
 </project>
